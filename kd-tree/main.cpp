@@ -1,12 +1,12 @@
-/**
+ï»¿/**
 kd-tree
-- Å‹ß–T’Tõ‚Ég‚¤
-- ¦‚¢ŸŒ³‚ªã‚ª‚é‚Æ’x‚¢‚ç‚µ‚¢
-Ql: 
+- æœ€è¿‘å‚æ¢ç´¢ã«ä½¿ã†
+- å‡„ã„æ¬¡å…ƒãŒä¸ŠãŒã‚‹ã¨é…ã„ã‚‰ã—ã„
+å‚è€ƒ: 
   http://ja.wikipedia.org/wiki/Kd%E6%9C%A8
   http://d.hatena.ne.jp/higepon/20101024/1287914277
   http://d.hatena.ne.jp/higepon/20101026/1288095914
-  http://stackoverflow.com/questions/1402014/kdtree-implementation-c (’£‚Á‚Ä‚ ‚éƒ\[ƒX‘s‘å‚ÉƒoƒO‚Á‚Ä‚é’ˆÓ)
+  http://stackoverflow.com/questions/1402014/kdtree-implementation-c (å¼µã£ã¦ã‚ã‚‹ã‚½ãƒ¼ã‚¹å£®å¤§ã«ãƒã‚°ã£ã¦ã‚‹æ³¨æ„)
 */
 
 #include <cstdio>
@@ -17,23 +17,23 @@ kd-tree
 
 #define CHECK(expr) if(!(expr)){ __asm{ int 3} }
 
-// OŸŒ³ƒxƒNƒgƒ‹
+// ä¸‰æ¬¡å…ƒãƒ™ã‚¯ãƒˆãƒ«
 struct Vec3
 {
 public:
-	// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	Vec3()
 		:x(0.0f),y(0.0f),z(0.0f)
 	{}
 	Vec3( float ax, float ay, float az )
 		:x(ax),y(ay),z(az)
 	{}
-	// ’·‚³“ñæ
+	// é•·ã•äºŒä¹—
 	float lengthSq() const
 	{
 		return x * x + y * y + z * z;
 	}
-	// “ñ“_ŠÔ‹——£“ñæ
+	// äºŒç‚¹é–“è·é›¢äºŒä¹—
 	static float DistanceSq( const Vec3& lhs, const Vec3& rhs )
 	{
 		const float dx = lhs.x - rhs.x;
@@ -61,12 +61,12 @@ public:
 	float z;
 };
 
-// Å‹ß–Tî•ñ
+// æœ€è¿‘å‚æƒ…å ±
 struct NearestInfo
 {
-	// ‹ßÚÀ•W
+	// è¿‘æ¥åº§æ¨™
 	Vec3 point;
-	// ‹ßÚÀ•W‚Ü‚Å‚Ì‹——£
+	// è¿‘æ¥åº§æ¨™ã¾ã§ã®è·é›¢
 	float dist;
 	// operator
 	bool operator != ( const NearestInfo& other ) const
@@ -75,16 +75,16 @@ struct NearestInfo
 	}
 };
 
-// kd-tree‚Ìƒm[ƒh
+// kd-treeã®ãƒãƒ¼ãƒ‰
 class kdTreeNode
 {
 public:
-	// ƒRƒ“ƒXƒgƒ‰ƒNƒ^Bˆø”‚ğ”j‰ó‚·‚é“_‚É’ˆÓB
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€‚å¼•æ•°ã‚’ç ´å£Šã™ã‚‹ç‚¹ã«æ³¨æ„ã€‚
 	kdTreeNode::kdTreeNode(Vec3* pointList, int pointLength, int depth = 0 )
 		:left(NULL),
 		right(NULL)
 	{
-		// —t‚É‚È‚é‚±‚Æ‚ªA‚·‚Å‚ÉŠm’è‚µ‚Ä‚¢‚éê‡
+		// è‘‰ã«ãªã‚‹ã“ã¨ãŒã€ã™ã§ã«ç¢ºå®šã—ã¦ã„ã‚‹å ´åˆ
 		if( pointLength == 1 )
 		{
 			left	= NULL;
@@ -93,12 +93,7 @@ public:
 			return;
 		}
 
-		/* 
-		HACK
-		’†‰›’l‘I‘ğ‚ğƒ\[ƒg‚µ‚Ä‚©‚ç‚â‚Á‚Ä‚é‚Ì‚Íƒ}ƒY‚¢B
-		‘I‘ğƒAƒ‹ƒSƒŠƒYƒ€‚Å‚¿‚á‚ñ‚Æ’†‰›’l‚ğæ“¾‚·‚é‚æ‚¤‚É‚·‚éB
-		*/
-		// ƒ\[ƒg—pqŒê
+		// ã‚½ãƒ¼ãƒˆç”¨è¿°èª
 		class Local
 		{
 		public:
@@ -120,11 +115,11 @@ public:
 		}
 
 		/*
-		ˆê—v‘f‚Ìê‡A0|1|0
-		“ñ—v‘f‚Ìê‡A1|1|0
-		O—v‘f‚Ìê‡A1|1|1
-		l—v‘f‚Ìê‡A2|1|1
-		ŒÜ—v‘f‚Ìê‡A2|1|2
+		ä¸€è¦ç´ ã®å ´åˆã€0|1|0
+		äºŒè¦ç´ ã®å ´åˆã€1|1|0
+		ä¸‰è¦ç´ ã®å ´åˆã€1|1|1
+		å››è¦ç´ ã®å ´åˆã€2|1|1
+		äº”è¦ç´ ã®å ´åˆã€2|1|2
 		*/
 		const int beforeLength = pointLength / 2;
 		const int afterLength  = ((pointLength+1) / 2) - 1;
@@ -136,13 +131,13 @@ public:
 			right = new kdTreeNode( pointList + beforeLength + 1, afterLength, depth + 1);
 		}
 	}
-	// ƒfƒXƒgƒ‰ƒNƒ^
+	// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	~kdTreeNode()
 	{
 		delete left;
 		delete right;
 	}
-	// ƒuƒ‹[ƒgƒtƒH[ƒX‚ÅÅ‹ßÚ‚ğ’TõBƒfƒoƒbƒO—pB
+	// ãƒ–ãƒ«ãƒ¼ãƒˆãƒ•ã‚©ãƒ¼ã‚¹ã§æœ€è¿‘æ¥ã‚’æ¢ç´¢ã€‚ãƒ‡ãƒãƒƒã‚°ç”¨ã€‚
 	NearestInfo findNearestBrute( const Vec3& targetPoint )
 	{
 		NearestInfo ni;
@@ -167,13 +162,13 @@ public:
 		}
 		return ni;
 	}
-	// Å‹ß–T“_‚ğæ“¾
+	// æœ€è¿‘å‚ç‚¹ã‚’å–å¾—
 	NearestInfo findNearest(const Vec3& targetPoint )
 	{
 		return findNearest( targetPoint, 0 );
 	}
 private:
-	// Å‹ßÚ‚ğæ“¾
+	// æœ€è¿‘æ¥ã‚’å–å¾—
 	NearestInfo kdTreeNode::findNearest(const Vec3& targetPoint, int depth )
 	{
 		if( !right )
@@ -182,12 +177,12 @@ private:
 			NearestInfo ci;
 			ci.dist = r.lengthSq();
 			ci.point = point;
-			// —¼—t‚ª‚È‚¢ê‡
+			// ä¸¡è‘‰ãŒãªã„å ´åˆ
 			if(!left)
 			{
 				return ci;
 			}
-			// ¶‚¾‚¯‚Ìê‡
+			// å·¦ã ã‘ã®å ´åˆ
 			else
 			{
 				Vec3 r = left->point - targetPoint;
@@ -205,24 +200,24 @@ private:
 				}
 			}
 		}
-		// Œ»İ‚Ì²•ûŒü‹——£
+		// ç¾åœ¨ã®è»¸æ–¹å‘è·é›¢
 		const float axisDist = point[depth] - targetPoint[depth];
-		// Œ»İ‹‚é‘¤‚ğo‚·
+		// ç¾åœ¨å±…ã‚‹å´ã‚’å‡ºã™
 		const int side = axisDist < 0.0f;
-		// ²ŒğŠ·
+		// è»¸äº¤æ›
 		depth = (depth + 1) % 3;
-		// Œ»İ‹‚é—Ìˆæ‚ÌÅ‹ßÚ
+		// ç¾åœ¨å±…ã‚‹é ˜åŸŸã®æœ€è¿‘æ¥
 		NearestInfo nearest0 = childlen[side]->findNearest(targetPoint, depth);
-		// "dØ‚è"‚Æ"‘ÎŠİ"‚Ì‰Â”\«‚ª‚È‚­‚È‚Á‚½‚Ì‚ÅAŒ»İ‚Ì—Ìˆæ‚ÌÅ‹ßÚ‚ğÌ—p
+		// "ä»•åˆ‡ã‚Š"ã¨"å¯¾å²¸"ã®å¯èƒ½æ€§ãŒãªããªã£ãŸã®ã§ã€ç¾åœ¨ã®é ˜åŸŸã®æœ€è¿‘æ¥ã‚’æ¡ç”¨
 		if( nearest0.dist < axisDist * axisDist  )
 		{ return nearest0; }
-		// "dØ‚è"
+		// "ä»•åˆ‡ã‚Š"
 		NearestInfo nearest1;
 		nearest1.dist = Vec3::DistanceSq(point,targetPoint);
 		nearest1.point = point;
-		// "‘ÎŠİ"
+		// "å¯¾å²¸"
 		NearestInfo nearest2 = childlen[side^1]->findNearest(targetPoint, depth);
-		// contact0/1/2‚Åˆê”Ô‹ß‚¢‚à‚Ì‚ğÌ—p‚·‚é
+		// contact0/1/2ã§ä¸€ç•ªè¿‘ã„ã‚‚ã®ã‚’æ¡ç”¨ã™ã‚‹
 		if( nearest0.dist < nearest1.dist && nearest0.dist < nearest2.dist )
 		{ return nearest0; }
 		else if( nearest1.dist < nearest2.dist )
@@ -231,9 +226,9 @@ private:
 		{ return nearest2; }
 	}
 private:
-	// ‚±‚Ìƒm[ƒh‚ÌˆÊ’u
+	// ã“ã®ãƒãƒ¼ãƒ‰ã®ä½ç½®
 	Vec3 point;
-	// qƒm[ƒh
+	// å­ãƒãƒ¼ãƒ‰
 	union
 	{
 		struct
@@ -251,7 +246,7 @@ float rf()
 	return (float)((double)rand()/(double)RAND_MAX);
 }
 
-// ƒƒCƒ“ŠÖ”
+// ãƒ¡ã‚¤ãƒ³é–¢æ•°
 void main()
 {
 	std::vector<Vec3> points;
@@ -261,7 +256,7 @@ void main()
 		p = Vec3( rf(), rf(), rf() );
 	}
 	kdTreeNode node2d(&points[0],points.size());
-	//ƒeƒXƒgƒ|ƒCƒ“ƒg
+	//ãƒ†ã‚¹ãƒˆãƒã‚¤ãƒ³ãƒˆ
 	const int NUM_TEST = 1000;
 	for( unsigned int i=0;i<NUM_TEST;++i)
 	{
