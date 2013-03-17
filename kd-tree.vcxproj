@@ -10,8 +10,11 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="kd_tree.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{0B5AAF07-E6DB-47B8-84A5-AA437A7A9E9B}</ProjectGuid>
+    <ProjectGuid>{A4996A29-3B58-4884-9D1E-603A344EA5EC}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>kdtree</RootNamespace>
   </PropertyGroup>
@@ -75,9 +78,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="main.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
