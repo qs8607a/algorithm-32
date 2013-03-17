@@ -6,7 +6,7 @@ kd-tree
   http://ja.wikipedia.org/wiki/Kd%E6%9C%A8
   http://d.hatena.ne.jp/higepon/20101024/1287914277
   http://d.hatena.ne.jp/higepon/20101026/1288095914
-  http://stackoverflow.com/questions/1402014/kdtree-implementation-c (張ってあるソース壮大にバグってる注意)
+  http://stackoverflow.com/questions/1402014/kdtree-implementation-c (張ってあるソース盛大にバグってるので注意)
 */
 
 #include <cstdio>
@@ -14,27 +14,30 @@ kd-tree
 #include <cstdlib>
 #include <algorithm>
 #include <vector>
+#include <Windows.h>
+#pragma comment(lib,"winmm.lib")
 
 #define CHECK(expr) if(!(expr)){ __asm{ int 3} }
+#define INLINE __forceinline
 
 // 三次元ベクトル
 struct Vec3
 {
 public:
 	// コンストラクタ
-	Vec3()
+	INLINE Vec3()
 		:x(0.0f),y(0.0f),z(0.0f)
 	{}
-	Vec3( float ax, float ay, float az )
+	INLINE Vec3( float ax, float ay, float az )
 		:x(ax),y(ay),z(az)
 	{}
 	// 長さ二乗
-	float lengthSq() const
+	INLINE float lengthSq() const
 	{
 		return x * x + y * y + z * z;
 	}
 	// 二点間距離二乗
-	static float DistanceSq( const Vec3& lhs, const Vec3& rhs )
+	INLINE static float DistanceSq( const Vec3& lhs, const Vec3& rhs )
 	{
 		const float dx = lhs.x - rhs.x;
 		const float dy = lhs.y - rhs.y;
@@ -42,16 +45,16 @@ public:
 		return dx*dx + dy*dy + dz*dz;
 	}
 	// operator
-	const float& operator[](int index) const { return *(&x+index); }
-	float& operator[](int index) { return *(&x+index); }
-	bool operator != ( const Vec3& other ) const
+	INLINE const float& operator[](int index) const { return *(&x+index); }
+	INLINE float& operator[](int index) { return *(&x+index); }
+	INLINE bool operator != ( const Vec3& other ) const
 	{
 		return 
 			x != other.x ||
 			y != other.y ||
 			z != other.z;
 	}
-	Vec3 operator - ( const Vec3& other )
+	INLINE Vec3 operator - ( const Vec3& other )
 	{
 		return Vec3( x-other.x, y-other.y, z-other.z );
 	}
@@ -66,12 +69,12 @@ struct NearestInfo
 {
 	// 近接座標
 	Vec3 point;
-	// 近接座標までの距離
-	float dist;
+	// 近接座標までの距離の二乗
+	float distSq;
 	// operator
-	bool operator != ( const NearestInfo& other ) const
+	INLINE bool operator != ( const NearestInfo& other ) const
 	{
-		return point != other.point || dist != other.dist;
+		return point != other.point || distSq != other.distSq;
 	}
 };
 
@@ -80,9 +83,19 @@ class kdTreeNode
 {
 public:
 	// コンストラクタ。引数を破壊する点に注意。
-	kdTreeNode::kdTreeNode(Vec3* pointList, int pointLength, int depth = 0 )
+	kdTreeNode::kdTreeNode()
 		:left(NULL),
 		right(NULL)
+	{
+	}
+	// デストラクタ
+	~kdTreeNode()
+	{
+		//delete left;
+		//delete right;
+	}
+	// コンストラクタ。引数を破壊する点に注意。
+	void kdTreeNode::create(Vec3* pointList, int pointLength, int depth )
 	{
 		// 葉になることが、すでに確定している場合
 		if( pointLength == 1 )
@@ -125,29 +138,25 @@ public:
 		const int afterLength  = ((pointLength+1) / 2) - 1;
 		point = pointList[beforeLength];
 		CHECK( beforeLength!=0 );
-		left = new kdTreeNode( pointList, beforeLength, depth + 1);
+		left = new kdTreeNode();
+		left->create( pointList, beforeLength, depth + 1 );
 		if( afterLength != 0 )
 		{
-			right = new kdTreeNode( pointList + beforeLength + 1, afterLength, depth + 1);
+			right = new kdTreeNode();
+			right->create( pointList + beforeLength + 1, afterLength, depth + 1 );
 		}
 	}
-	// デストラクタ
-	~kdTreeNode()
-	{
-		delete left;
-		delete right;
-	}
 	// ブルートフォースで最近接を探索。デバッグ用。
-	NearestInfo findNearestBrute( const Vec3& targetPoint )
+	INLINE NearestInfo findNearestBrute( const Vec3& targetPoint )
 	{
 		NearestInfo ni;
-		ni.dist = Vec3::DistanceSq( targetPoint, point );
+		ni.distSq = Vec3::DistanceSq( targetPoint, point );
 		ni.point = point;
 
 		if( left )
 		{
 			NearestInfo niLeft = left->findNearestBrute(targetPoint);
-			if( niLeft.dist < ni.dist )
+			if( niLeft.distSq < ni.distSq )
 			{
 				ni = niLeft;
 			}
@@ -155,7 +164,7 @@ public:
 		if( right )
 		{
 			NearestInfo niRight = right->findNearestBrute(targetPoint);
-			if( niRight.dist < ni.dist )
+			if( niRight.distSq < ni.distSq )
 			{
 				ni = niRight;
 			}
@@ -163,19 +172,18 @@ public:
 		return ni;
 	}
 	// 最近傍点を取得
-	NearestInfo findNearest(const Vec3& targetPoint )
+	INLINE NearestInfo findNearest(const Vec3& targetPoint )
 	{
 		return findNearest( targetPoint, 0 );
 	}
 private:
 	// 最近接を取得
-	NearestInfo kdTreeNode::findNearest(const Vec3& targetPoint, int depth )
+	INLINE NearestInfo findNearest(const Vec3& targetPoint, int depth )
 	{
 		if( !right )
 		{
-			const Vec3 r = point - targetPoint;
 			NearestInfo ci;
-			ci.dist = r.lengthSq();
+			ci.distSq = Vec3::DistanceSq( point, targetPoint );
 			ci.point = point;
 			// 両葉がない場合
 			if(!left)
@@ -185,16 +193,15 @@ private:
 			// 左だけの場合
 			else
 			{
-				Vec3 r = left->point - targetPoint;
-				const float d1 = r.lengthSq();
-				if( ci.dist < d1 )
+				const float d1 = Vec3::DistanceSq(left->point, targetPoint);
+				if( ci.distSq < d1 )
 				{
 					return ci;
 				}
 				else
 				{
 					NearestInfo ci0;
-					ci0.dist = d1;
+					ci0.distSq = d1;
 					ci0.point = left->point;
 					return ci0;
 				}
@@ -209,18 +216,18 @@ private:
 		// 現在居る領域の最近接
 		NearestInfo nearest0 = childlen[side]->findNearest(targetPoint, depth);
 		// "仕切り"と"対岸"の可能性がなくなったので、現在の領域の最近接を採用
-		if( nearest0.dist < axisDist * axisDist  )
+		if( nearest0.distSq < axisDist * axisDist  )
 		{ return nearest0; }
 		// "仕切り"
 		NearestInfo nearest1;
-		nearest1.dist = Vec3::DistanceSq(point,targetPoint);
+		nearest1.distSq = Vec3::DistanceSq(point,targetPoint);
 		nearest1.point = point;
 		// "対岸"
 		NearestInfo nearest2 = childlen[side^1]->findNearest(targetPoint, depth);
 		// contact0/1/2で一番近いものを採用する
-		if( nearest0.dist < nearest1.dist && nearest0.dist < nearest2.dist )
+		if( nearest0.distSq < nearest1.distSq && nearest0.distSq < nearest2.distSq )
 		{ return nearest0; }
-		else if( nearest1.dist < nearest2.dist )
+		else if( nearest1.distSq < nearest2.distSq )
 		{ return nearest1; }
 		else
 		{ return nearest2; }
@@ -250,25 +257,44 @@ float rf()
 void main()
 {
 	std::vector<Vec3> points;
-	points.resize(500);
+	points.resize(1000);
 	for( Vec3& p : points )
 	{
 		p = Vec3( rf(), rf(), rf() );
 	}
-	kdTreeNode node2d(&points[0],points.size());
-	//テストポイント
+	kdTreeNode kdtree;
+	kdtree.create(&points[0],points.size(),0 );
+	
+#if 1 // 動作テスト
 	const int NUM_TEST = 1000;
 	for( unsigned int i=0;i<NUM_TEST;++i)
 	{
 		const Vec3 testPoint( rf(), rf(), rf() );
-		const NearestInfo result0 = node2d.findNearest( testPoint );
-		const NearestInfo result1 = node2d.findNearestBrute( testPoint );
+		const NearestInfo result0 = kdtree.findNearest( testPoint );
+		const NearestInfo result1 = kdtree.findNearestBrute( testPoint );
 		CHECK( !(result0!=result1) );
 		const Vec3& p0 = result0.point;
 		const Vec3& p1 = result1.point;
 		printf("%d\n",i);
 		printf( "  %f %f\n", testPoint.x, testPoint.y );
-		printf( "  %f %f(%f)\n", p0.x, p0.y, result0.dist );
-		printf( "  %f %f(%f)\n", p1.x, p1.y, result1.dist );
+		printf( "  %f %f(%f)\n", p0.x, p0.y, result0.distSq );
+		printf( "  %f %f(%f)\n", p1.x, p1.y, result1.distSq );
 	}
+#endif
+#if 0 // 性能テスト
+	const int NUM_TEST = 96 * 16 * 100;
+	std::vector<Vec3> tests;
+	for( unsigned int i=0;i<NUM_TEST;++i)
+	{
+		tests.push_back( Vec3( rf(), rf(), rf() ) );
+	}
+	const long start = timeGetTime();
+	for( unsigned int i=0;i<NUM_TEST;++i)
+	{
+		const NearestInfo result0 = kdtree.findNearest( tests[i] );
+		result0;
+	}
+	const long elase = timeGetTime() - start;
+	printf("%dms\n",elase);
+#endif
 }
