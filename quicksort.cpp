@@ -1,4 +1,4 @@
-/*
+ï»¿/*
 quicksort
 - http://ja.wikipedia.org/wiki/%E3%82%AF%E3%82%A4%E3%83%83%E3%82%AF%E3%82%BD%E3%83%BC%E3%83%88
 - http://stricter.org/docs/tech/quicksort/
@@ -7,18 +7,18 @@ quicksort
 #include <cstdio>
 #include <algorithm>
 
-// quick sort‚ğs‚¤Bˆø”‚ğ”j‰ó‚·‚é‚±‚Æ‚É’ˆÓ
+// quick sortã‚’è¡Œã†ã€‚å¼•æ•°ã‚’ç ´å£Šã™ã‚‹ã“ã¨ã«æ³¨æ„
 template<typename T,typename Pred>
 static void quickSort( T* elements, size_t numElements, Pred pred )
 {
-	// —v‘f‚ªˆê‚ÂˆÈ‰º‚Ìê‡‚Íƒ\[ƒg‚·‚é•K—v‚ª‚È‚¢‚Ì‚Å‰½‚à‚µ‚È‚¢
+	// è¦ç´ ãŒä¸€ã¤ä»¥ä¸‹ã®å ´åˆã¯ã‚½ãƒ¼ãƒˆã™ã‚‹å¿…è¦ãŒãªã„ã®ã§ä½•ã‚‚ã—ãªã„
 	if( numElements < 2 )
 	{ return ; }
 	/*
-	pivot‚ÌŒˆ’è‚ğs‚¤B
-	uæ“ª‚Ì’l‚ğg‚¤vu’†‰›‚É‚ ‚é’l‚ğg‚¤vuæ“ª‚Æ“ñ‚Â–Ú‚Ì’l‚ğ”ä‚×‘å‚«‚¢‚Ù‚¤‚ğg‚¤v
-	‚È‚Ç‚Ì‘f–p‚È•û–@‚ª—á‚Æ‚µ‚Äã‚ª‚é‚±‚Æ‚ª‘½‚¢‚ªA‘S‚Ä“¯’l‚Ì—ñ‚ª—ˆ‚½ê‡‚É–³ŒÀÄ‹A‚É‚È‚Á‚Ä‚µ‚Ü‚¤B
-	u‘S‚Ä“¯’l‚É‚È‚Á‚Ä‚µ‚Ü‚Á‚Ä‚¢‚é‚©v‚Ìƒ`ƒFƒbƒN‚Æuƒsƒ{ƒbƒg‚Í­‚È‚­‚Æ‚àÅ’á’l‚Å‚Í‚È‚¢v‚Ìƒ`ƒFƒbƒN‚ª‚Ç‚¤‚µ‚Ä‚à•K—vB
+	pivotã®æ±ºå®šã‚’è¡Œã†ã€‚
+	ã€Œå…ˆé ­ã®å€¤ã‚’ä½¿ã†ã€ã€Œä¸­å¤®ã«ã‚ã‚‹å€¤ã‚’ä½¿ã†ã€ã€Œå…ˆé ­ã¨äºŒã¤ç›®ã®å€¤ã‚’æ¯”ã¹å¤§ãã„ã»ã†ã‚’ä½¿ã†ã€
+	ãªã©ã®ç´ æœ´ãªæ–¹æ³•ãŒä¾‹ã¨ã—ã¦ä¸ŠãŒã‚‹ã“ã¨ãŒå¤šã„ãŒã€å…¨ã¦åŒå€¤ã®åˆ—ãŒæ¥ãŸå ´åˆã«ç„¡é™å†å¸°ã«ãªã£ã¦ã—ã¾ã†ã€‚
+	ã€Œå…¨ã¦åŒå€¤ã«ãªã£ã¦ã—ã¾ã£ã¦ã„ã‚‹ã‹ã€ã®ãƒã‚§ãƒƒã‚¯ã¨ã€Œãƒ”ãƒœãƒƒãƒˆã¯å°‘ãªãã¨ã‚‚æœ€ä½å€¤ã§ã¯ãªã„ã€ã®ãƒã‚§ãƒƒã‚¯ãŒã©ã†ã—ã¦ã‚‚å¿…è¦ã€‚
 	*/
 	int numSameNumber = 0;
 	while(
@@ -28,18 +28,18 @@ static void quickSort( T* elements, size_t numElements, Pred pred )
 	{
 		++numSameNumber;
 	}
-	// “¯’l‚Ì‚İ‚Ì—ñ‚È‚Ì‚Åƒ\[ƒg‚Ì•K—v‚È‚µ
+	// åŒå€¤ã®ã¿ã®åˆ—ãªã®ã§ã‚½ãƒ¼ãƒˆã®å¿…è¦ãªã—
 	if( numSameNumber + 1 == numElements )
 	{
 		return ;
 	}
-	// ²—v‘f‚ÌŒˆ’è(—×‚ ‚¤’l‚ªˆá‚¤’l‚ÅA‚»‚Ì‚‚¢‚Ù‚¤‚Å‚ ‚ê‚Î—ñ’†‚ÌÅ’á’l‚Å‚ÍŠmÀ‚É‚È‚¢)‚µAÅŒã”ö‚ÉˆÚ“®
+	// è»¸è¦ç´ ã®æ±ºå®š(éš£ã‚ã†å€¤ãŒé•ã†å€¤ã§ã€ãã®é«˜ã„ã»ã†ã§ã‚ã‚Œã°åˆ—ä¸­ã®æœ€ä½å€¤ã§ã¯ç¢ºå®Ÿã«ãªã„)ã—ã€æœ€å¾Œå°¾ã«ç§»å‹•
 	if( elements[numSameNumber] < elements[numSameNumber+1] )
 	{ std::swap( elements[numSameNumber+1], elements[numElements-1] ); }
 	else
 	{ std::swap( elements[numSameNumber], elements[numElements-1] ); }
 	T pivotValue = elements[numElements-1];
-	// “ñ‚Â‚Ì—v‘f‚É•ªŠ„
+	// äºŒã¤ã®è¦ç´ ã«åˆ†å‰²
 	int lowArrayIndex = 0;
 	for(int i=0;i<numElements;++i)
 	{
@@ -49,12 +49,12 @@ static void quickSort( T* elements, size_t numElements, Pred pred )
 			++lowArrayIndex;
 		}
 	}
-	// •ªŠ„‚µ‚½ƒf[ƒ^—ñ‚ğ‚³‚ç‚Éƒ\[ƒg
+	// åˆ†å‰²ã—ãŸãƒ‡ãƒ¼ã‚¿åˆ—ã‚’ã•ã‚‰ã«ã‚½ãƒ¼ãƒˆ
 	quickSort( elements, lowArrayIndex, pred );
 	quickSort( elements + lowArrayIndex, numElements - lowArrayIndex, pred );
 }
 
-// mainŠÖ”
+// mainé–¢æ•°
 void main()
 {
 	int elements[] = {8,2,9,2,3,9};
