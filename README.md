@@ -16,3 +16,5 @@ algorithm
 + wavelet tree
 + AVL/赤黒とその家族
 + 乱択アルゴリズム系
++ 交差判定一通り
+
