@@ -22,9 +22,9 @@ static void quickSort( T* elements, size_t numElements, Pred pred )
 	*/
 	int numSameNumber = 0;
 	while(
+		numSameNumber < numElements &&
 		!pred( elements[numSameNumber],elements[numSameNumber+1] ) && 
-		!pred( elements[numSameNumber+1],elements[numSameNumber] ) &&
-		numSameNumber < numElements )
+		!pred( elements[numSameNumber+1],elements[numSameNumber] ) )
 	{
 		++numSameNumber;
 	}
@@ -57,6 +57,7 @@ static void quickSort( T* elements, size_t numElements, Pred pred )
 // main関数
 void main()
 {
+	// TODO テストケースを生成するようにする
 	int elements[] = {8,2,9,2,3,9};
 	for( int e : elements ){ printf("%d ", e); } printf("\n");
 	quickSort( elements, sizeof(elements)/sizeof(*elements), [](int x,int y){ return x<y; } );
