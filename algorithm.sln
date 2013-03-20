@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Windows Desktop
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "kd-tree", "kd-tree.vcxproj", "{A4996A29-3B58-4884-9D1E-603A344EA5EC}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "barycentric_coordinate", "barycentric_coordinate\barycentric_coordinate.vcxproj", "{E9303539-AFDD-47A0-AF67-7E7AA3BC9BFB}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "quicksort", "quicksort.vcxproj", "{50ACF637-B9D7-42C5-8CF4-864816AB1C6E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "kd-tree", "kd-tree\kd-tree.vcxproj", "{A4996A29-3B58-4884-9D1E-603A344EA5EC}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "barycentric_coordinate", "barycentric_coordinate.vcxproj", "{E9303539-AFDD-47A0-AF67-7E7AA3BC9BFB}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "quickselect", "quickselect\quickselect.vcxproj", "{83661248-8843-48EF-B869-D6830950A07C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "quickselect", "quickselect.vcxproj", "{83661248-8843-48EF-B869-D6830950A07C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "quicksort", "quicksort\quicksort.vcxproj", "{50ACF637-B9D7-42C5-8CF4-864816AB1C6E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,22 +15,22 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A4996A29-3B58-4884-9D1E-603A344EA5EC}.Debug|Win32.ActiveCfg = Debug|Win32
-		{A4996A29-3B58-4884-9D1E-603A344EA5EC}.Debug|Win32.Build.0 = Debug|Win32
-		{A4996A29-3B58-4884-9D1E-603A344EA5EC}.Release|Win32.ActiveCfg = Release|Win32
-		{A4996A29-3B58-4884-9D1E-603A344EA5EC}.Release|Win32.Build.0 = Release|Win32
-		{50ACF637-B9D7-42C5-8CF4-864816AB1C6E}.Debug|Win32.ActiveCfg = Debug|Win32
-		{50ACF637-B9D7-42C5-8CF4-864816AB1C6E}.Debug|Win32.Build.0 = Debug|Win32
-		{50ACF637-B9D7-42C5-8CF4-864816AB1C6E}.Release|Win32.ActiveCfg = Release|Win32
-		{50ACF637-B9D7-42C5-8CF4-864816AB1C6E}.Release|Win32.Build.0 = Release|Win32
 		{E9303539-AFDD-47A0-AF67-7E7AA3BC9BFB}.Debug|Win32.ActiveCfg = Debug|Win32
 		{E9303539-AFDD-47A0-AF67-7E7AA3BC9BFB}.Debug|Win32.Build.0 = Debug|Win32
 		{E9303539-AFDD-47A0-AF67-7E7AA3BC9BFB}.Release|Win32.ActiveCfg = Release|Win32
 		{E9303539-AFDD-47A0-AF67-7E7AA3BC9BFB}.Release|Win32.Build.0 = Release|Win32
+		{A4996A29-3B58-4884-9D1E-603A344EA5EC}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A4996A29-3B58-4884-9D1E-603A344EA5EC}.Debug|Win32.Build.0 = Debug|Win32
+		{A4996A29-3B58-4884-9D1E-603A344EA5EC}.Release|Win32.ActiveCfg = Release|Win32
+		{A4996A29-3B58-4884-9D1E-603A344EA5EC}.Release|Win32.Build.0 = Release|Win32
 		{83661248-8843-48EF-B869-D6830950A07C}.Debug|Win32.ActiveCfg = Debug|Win32
 		{83661248-8843-48EF-B869-D6830950A07C}.Debug|Win32.Build.0 = Debug|Win32
 		{83661248-8843-48EF-B869-D6830950A07C}.Release|Win32.ActiveCfg = Release|Win32
 		{83661248-8843-48EF-B869-D6830950A07C}.Release|Win32.Build.0 = Release|Win32
+		{50ACF637-B9D7-42C5-8CF4-864816AB1C6E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{50ACF637-B9D7-42C5-8CF4-864816AB1C6E}.Debug|Win32.Build.0 = Debug|Win32
+		{50ACF637-B9D7-42C5-8CF4-864816AB1C6E}.Release|Win32.ActiveCfg = Release|Win32
+		{50ACF637-B9D7-42C5-8CF4-864816AB1C6E}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
