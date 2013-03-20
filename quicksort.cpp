@@ -34,7 +34,7 @@ static void quickSort( T* elements, size_t numElements, Pred pred )
 		return ;
 	}
 	// 軸要素の決定(隣あう値が違う値で、その高いほうであれば列中の最低値では確実にない)し、最後尾に移動
-	if( elements[numSameNumber] < elements[numSameNumber+1] )
+	if( pred(elements[numSameNumber], elements[numSameNumber+1] ) )
 	{ std::swap( elements[numSameNumber+1], elements[numElements-1] ); }
 	else
 	{ std::swap( elements[numSameNumber], elements[numElements-1] ); }
@@ -58,5 +58,7 @@ static void quickSort( T* elements, size_t numElements, Pred pred )
 void main()
 {
 	int elements[] = {8,2,9,2,3,9};
+	for( int e : elements ){ printf("%d ", e); } printf("\n");
 	quickSort( elements, sizeof(elements)/sizeof(*elements), [](int x,int y){ return x<y; } );
+	for( int e : elements ){ printf("%d ", e); } printf("\n");
 }
