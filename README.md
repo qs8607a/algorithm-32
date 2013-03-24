@@ -14,11 +14,11 @@ algorithm
 + [quick select](quickselect.cpp) ( TODO バグを修正する )
 
 ## 予定 ##
-+ 主成分分析
++ レンジコーダー
++ 交差判定一通り
 + プリュッカー座標
 + k-means
-+ 交差判定一通り
-+ レンジコーダー
++ 主成分分析
 + wavelet tree
 + AVL/赤黒とその家族
 + 乱択アルゴリズム系
